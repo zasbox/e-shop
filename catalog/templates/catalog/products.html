@@ -1,0 +1,11 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-5">{{ object.name }}</h1>
+</div>
+<p class="text-start"><b>Описание:</b> {{ object.description }}</p>
+<p class="text-start"><b>Категория:</b> {{ object.category }}</p>
+<p class="text-start"><b>Цена:</b> {{ object.price }} руб.</p>
+<p class="text-start"><b>Дата добавления:</b> {{ object.created_at }}</p>
+<p class="text-start"><b>Дата изменения:</b> {{ object.modificated_at }}</p>
+{% endblock %}

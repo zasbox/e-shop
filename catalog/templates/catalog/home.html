@@ -1,0 +1,43 @@
+{% extends 'catalog/base.html' %}
+{% load mediapath %}
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Productstore</h1>
+    <p class="lead">Магазин продуктовых товаров</p>
+</div>
+
+<div class="row text-center">
+    {% for object in object_list %}
+    <div class="col-3">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">
+                    <a href="/products/{{object.id}}">{{object|truncatechars:100}}</a></h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">{{object.price}} руб.</h1>
+                <div class="list-unstyled mt-3 mb-4 text-start m-3">
+                    <!--<img class="card-img" src="{{object.preview.url}}">-->
+                    <!--<img class="card-img" src="{% mediapath object.preview %}">-->
+                    <img class="card-img" src="{{ object.preview|mediapath_filter }}">
+                </div>
+                <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="mb-3" style="text-align: center;">
+    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:product_list' %}">Добавить продукт</a>
+</div>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        {% for page in page_list %}
+        <li class="page-item"><a class="page-link" href="/products/pages/{{page}}/">{{page}}</a></li>
+        {% endfor %}
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</nav>
+{% endblock %}
+
