@@ -1,0 +1,24 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+<div class="col-12">
+    <div class="row">
+        <div class="card" style="width: 100%;">
+            {% if object.preview %}
+            <img src="{{object.preview.url}}" width="80" height="80" class="card-img-left" alt="...">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{object.title}}</h5>
+                <p class="card-text">{{object.text}}</p>
+                <div class="card-footer">
+                    <p class="card-text">Опубликовано: {{object.created_at}}</p>
+                    <p class="card-text">Количество просмотров: {{object.view_count}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3 mt-3" style="text-align: center;">
+            <a class="p-2 btn btn-success" href="{% url 'blog:list' %}">Назад</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

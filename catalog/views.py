@@ -1,12 +1,9 @@
-from django.http import HttpResponse
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView
 
 from catalog.models import Product
 
-
-# Create your views here.
 
 class ProductListView(ListView):
     model = Product
@@ -25,7 +22,7 @@ class ProductCreateView(CreateView):
     success_url = reverse_lazy('catalog:index')
 
     def form_invalid(self, form):
-        return HttpResponse('Unsuccess')
+        return redirect(reverse('catalog:index'))
 
 
 def contacts(request):

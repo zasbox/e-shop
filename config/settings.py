@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'catalog',
+    'blog'
 ]
 
 MIDDLEWARE = [
@@ -138,3 +139,10 @@ TEMPLATES[0]['OPTIONS']['context_processors'].append("catalog.context_processors
 TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.load_template_source',
 )
+
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 2525
+EMAIL_HOST_USER = "zasbox@mail.ru"
+EMAIL_HOST_PASSWORD = "Tmx1JYHwxmdkBapzeHRe"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
