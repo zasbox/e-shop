@@ -3,7 +3,7 @@
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     <h1 class="display-4">Добавление продукта</h1>
 </div>
-<form method="post" action="{% url 'catalog:product_list' %}" enctype="multipart/form-data" class="form-floating">
+<form method="post" action="{% url 'catalog:create_product' %}" enctype="multipart/form-data" class="form-floating">
     {% csrf_token %}
     <div class="w-50">
         <div class="mb-3">
