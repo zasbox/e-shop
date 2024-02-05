@@ -8,4 +8,7 @@
 <p class="text-start"><b>Цена:</b> {{ object.price }} руб.</p>
 <p class="text-start"><b>Дата добавления:</b> {{ object.created_at }}</p>
 <p class="text-start"><b>Дата изменения:</b> {{ object.modificated_at }}</p>
+<div class="mb-3" style="text-align: center;">
+    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:update_product' object.pk %}">Редактировать</a>
+</div>
 {% endblock %}

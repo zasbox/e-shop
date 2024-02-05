@@ -13,6 +13,15 @@
             <div class="card-header">
                 <h4 class="my-0 font-weight-normal">
                     <a href="/view/{{object.id}}">{{object|truncatechars:100}}</a></h4>
+                    <h6 class="mt-3">
+                        {% if object.version %}
+                            Версия:
+                            <a href="{% url 'catalog:update_version' object.pk %}">{{object.version}}</a>
+                        {% else %}
+                            Версия:
+                            <a href="{% url 'catalog:update_version' object.pk %}">не определена</a>
+                        {% endif %}
+                    </h6>
             </div>
             <div class="card-body">
                 <h1 class="card-title pricing-card-title">{{object.price}} руб.</h1>

@@ -19,6 +19,7 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
+        ordering = ['pk']
 
 
 class Category(models.Model):
@@ -32,3 +33,18 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'категория'
         verbose_name_plural = 'категории'
+
+
+class Version(models.Model):
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+    number = models.IntegerField(verbose_name='номер')
+    title = models.CharField(max_length=50, verbose_name='название')
+    is_currency = models.BooleanField(verbose_name='текущая', default=False)
+
+    def __str__(self):
+        return f'{self.title} {self.number}'
+
+    class Meta:
+        verbose_name = 'версия'
+        verbose_name_plural = 'версии'
+
