@@ -1,6 +1,6 @@
 from django import forms
-from django.core.exceptions import ValidationError, NON_FIELD_ERRORS
-from django.forms import ModelForm, BaseModelFormSet, BaseForm
+from django.core.exceptions import ValidationError
+from django.forms import ModelForm, BaseInlineFormSet, BaseModelFormSet
 
 from catalog.models import Product, Version
 
@@ -44,3 +44,14 @@ class VersionFormSet(BaseModelFormSet):
                 else:
                     is_currency = True
 
+
+class VersionInlineFormSet(BaseInlineFormSet):
+
+    def clean(self):
+        is_currency = False
+        for form in self.forms:
+            if form.cleaned_data.get('is_currency'):
+                if is_currency:
+                    raise ValidationError("только одна версия может быть текущей")
+                else:
+                    is_currency = True
