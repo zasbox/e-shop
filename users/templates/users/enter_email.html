@@ -1,0 +1,14 @@
+{% extends 'catalog/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="col-4 offset-4">
+<form action="{% url 'users:generate_password' %}" method="post">
+    {% csrf_token %}
+    <div class="card p-5">
+        <label for="ControlInputName" class="form-label">Укажите email</label>
+        <input type="email" name="email" required class="form-control" id="ControlInputName" placeholder="email">
+        <button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Отправить</button>
+    </div>
+</form>
+</div>
+{% endblock %}

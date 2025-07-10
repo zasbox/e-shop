@@ -1,0 +1,14 @@
+{% extends 'catalog/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="col-4 offset-4">
+<form class="form-signin" method="post">
+    {% csrf_token %}
+    <div class="card p-5">
+        {% crispy form %}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+    </div>
+    <a href="{% url 'users:generate_password' %}">Забыли пароль</a>
+</form>
+</div>
+{% endblock %}

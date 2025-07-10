@@ -1,15 +1,17 @@
 {% extends 'catalog/base.html' %}
 {% block content %}
 <div class="col-12">
-    <div class="row">
+    <div class="row justify-content-between">
         {% for object in object_list %}
-        <div class="card" style="width: 50%;">
+        <div class="card col-6 p-0" >
             {% if object.preview %}
             <img src="{{object.preview.url}}" width="80" height="80" class="card-img-left" alt="...">
             {% endif %}
             <div class="card-body">
                 <h5 class="card-title">{{object.title}}</h5>
                 <p class="card-text">{{object.text|truncatechars:100}}</p>
+            </div>
+            <div class="card-footer text-center">
                 <div class="btn-group">
                     <a href="{% url 'blog:view' object.slug %}" class="btn btn-success" >Просмотреть</a>
                     <a href="{% url 'blog:update' object.slug %}" class="btn btn-warning">Редактировать</a>

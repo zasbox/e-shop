@@ -12,6 +12,7 @@ class Product(models.Model):
     price = models.IntegerField(verbose_name='цена')
     created_at = models.DateField(verbose_name='дата создания', auto_now_add=True)
     modificated_at = models.DateField(verbose_name='дата изменения', auto_now=True)
+    user = models.ForeignKey('users.User', on_delete=models.SET_NULL, verbose_name='Пользователь', **NULLABLE)
 
     def __str__(self):
         return f'{self.name}'

@@ -1,0 +1,12 @@
+{% extends 'catalog/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="col-6 offset-3">
+<form class="form-signup text-left" enctype="multipart/form-data" method="post">
+    <div class="card p-5">
+        {% crispy form %}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
+    </div>
+</form>
+</div>
+{% endblock %}
