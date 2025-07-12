@@ -1,6 +1,7 @@
 from django.db import models
+from imagekit.models import ImageSpecField
+from pilkit.processors import ResizeToFill
 
-# Create your models here.
 NULLABLE = {'blank': True, 'null': True}
 
 
@@ -8,6 +9,7 @@ class Product(models.Model):
     name = models.CharField(max_length=150, verbose_name='наименование')
     description = models.TextField(verbose_name='описание', **NULLABLE)
     preview = models.ImageField(upload_to='products/', verbose_name='превью')
+    # preview_thumbnail = ImageSpecField(source='preview', processors=[ResizeToFill(300, 300)], format='JPEG')
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
     price = models.IntegerField(verbose_name='цена')
     created_at = models.DateField(verbose_name='дата создания', auto_now_add=True)
@@ -48,4 +50,3 @@ class Version(models.Model):
     class Meta:
         verbose_name = 'версия'
         verbose_name_plural = 'версии'
-
