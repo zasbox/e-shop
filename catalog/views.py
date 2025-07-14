@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.forms import modelformset_factory, inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -10,22 +10,24 @@ from catalog.forms import ProductForm, VersionForm, VersionInlineFormSet, Versio
 from catalog.models import Product, Version
 
 
-class ProductListView(LoginRequiredMixin, ListView):
+class ProductListView(ListView):
     model = Product
     paginate_by = 4
     template_name = "catalog/home.html"
-    login_url = reverse_lazy('users:login')
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(user=self.request.user)
+        if not self.request.user.is_authenticated:
+            queryset = queryset.filter(is_published=True)
+        elif not self.request.user.groups.filter(name="moderator").exists():
+            queryset = queryset.filter(user=self.request.user)
         for product in queryset:
             version = product.version_set.all().filter(is_currency=True).first()
             product.version = version
         return queryset
 
 
-class ProductDetailView(LoginRequiredMixin, DetailView):
+class ProductDetailView(DetailView):
     model = Product
     template_name = "catalog/products.html"
     login_url = reverse_lazy('users:login')
@@ -60,15 +62,34 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
             return super().form_invalid(form)
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Product
     form_class = ProductForm
     exclude = ('created_at', 'modificated_at',)
     success_url = reverse_lazy('catalog:index')
     login_url = reverse_lazy('users:login')
 
+    def test_func(self):
+        custom_perms: tuple = (
+            'catalog.set_published_status',
+            'catalog.change_category',
+            'catalog.change_description',
+        )
+        return self.request.user == self.get_object().user or self.request.user.has_perms(custom_perms)
+
+    def handle_no_permission(self):
+        return render(request=self.request, template_name='catalog/no_permissions.html')
+
+    def get_form_kwargs(self, *args, **kwargs):
+        form_kwargs = super().get_form_kwargs(*args, **kwargs)
+        form_kwargs['request'] = self.request
+        form_kwargs['user'] = self.object.user
+        return form_kwargs
+
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
+        if self.request.user != self.get_object().user:
+            return context_data
         version_formset = inlineformset_factory(parent_model=Product, model=Version, form=VersionForm,
                                                 formset=VersionInlineFormSet, extra=1, can_delete=True)
         if self.request.method == 'POST':

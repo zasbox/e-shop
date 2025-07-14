@@ -1,0 +1,15 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+<div class="col-12">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card">
+                <div class="card-body text-center">
+                        <p><b>У вас недостаточно прав для выполнения данной операции!</b></p>
+                        <a href="{% url 'catalog:index' %}" class="btn btn-primary">На главную</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

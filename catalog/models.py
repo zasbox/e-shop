@@ -14,7 +14,8 @@ class Product(models.Model):
     price = models.IntegerField(verbose_name='цена')
     created_at = models.DateField(verbose_name='дата создания', auto_now_add=True)
     modificated_at = models.DateField(verbose_name='дата изменения', auto_now=True)
-    user = models.ForeignKey('users.User', on_delete=models.SET_NULL, verbose_name='Пользователь', **NULLABLE)
+    user = models.ForeignKey('users.User', on_delete=models.SET_NULL, verbose_name='Создатель', **NULLABLE)
+    is_published = models.BooleanField(default=True, verbose_name="Опубликовано")
 
     def __str__(self):
         return f'{self.name}'
@@ -23,6 +24,20 @@ class Product(models.Model):
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
         ordering = ['pk']
+        permissions = [
+            (
+                "set_published_status",
+                "Can publish product"
+            ),
+            (
+                "change_category",
+                "Can change category product"
+            ),
+            (
+                "change_description",
+                "Can change description product"
+            ),
+        ]
 
 
 class Category(models.Model):
